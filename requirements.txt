@@ -1,0 +1,5 @@
+reactpy[fastapi]
+uvicorn[standard]
+pandas
+sqlmodel
+reactpy-router
