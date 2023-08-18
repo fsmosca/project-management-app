@@ -10,16 +10,18 @@ import sqlalchemy
 class Task(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     task_name: str = ''
-    task_created_date: str = ''
-    task_created_by: str = ''
-    fab_status: float = 0.0
-    fab_date: str = ''
-    fab_comment: str = ''
-    fab_name: str = ''
-    con_status: float = 0.0
-    con_date: str = ''
-    con_comment: str = ''
-    con_name: str = ''
+    task_rec_date: str = ''
+    task_rec_by: str = ''
+    fabric_prog: float = 0.0
+    fabric_status: str = ''
+    fabric_date: str = ''
+    fabric_note: str = ''
+    fabric_rec_by: str = ''
+    constr_prog: float = 0.0
+    constr_status: str = ''
+    constr_date: str = ''
+    constr_note: str = ''
+    constr_rec_by: str = ''
 
 
 sqlite_file_name = "tasks.sqlite"
@@ -33,19 +35,18 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 
-def add_task(task_name:str, task_created_by: str):
+def add_task(task_name:str, task_date: str, task_rec_by: str):
     """Adds task to the table.
 
-    The task name registered must be unique.
+    Duplicate task name is automatically detected and is not saved.
     """
     if len(select_task_by_task_name(task_name)):
         return
     
-    task_created_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     task = Task(
         task_name=task_name,
-        task_created_date=task_created_date,
-        task_created_by=task_created_by
+        task_rec_date=task_date,
+        task_rec_by=task_rec_by
     )
 
     with Session(engine) as session: 
@@ -97,16 +98,19 @@ def delete_task(task_name: int):
 
 def add_fabrication_status(
         task_name:str,
-        fab_status:float,
-        fab_comment:str,
-        fab_name: str,
+        fabric_date:str,
+        fabric_prog:float,
+        fabric_status:str,
+        fabric_note:str,
+        fabric_rec_by: str,
     ):
     task = Task(
         task_name=task_name,
-        fab_status=fab_status,
-        fab_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
-        fab_comment=fab_comment,
-        fab_name=fab_name
+        fabric_date=fabric_date,  # datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
+        fabric_prog=fabric_prog,
+        fabric_status=fabric_status,        
+        fabric_note=fabric_note,
+        fabric_rec_by=fabric_rec_by
     )
 
     with Session(engine) as session: 
@@ -117,13 +121,13 @@ def add_fabrication_status(
 def add_construction_status(
         task_id: int,
         task_name:str,
-        task_created_date: str,
-        task_created_by: str,
+        task_rec_date: str,
+        task_rec_by: str,
     ):
     task = Task(
         task_name=task_name,
-        task_created_date=task_created_date,
-        task_created_by=task_created_by
+        task_rec_date=task_rec_date,
+        task_rec_by=task_rec_by
     )
 
     with Session(engine) as session: 
