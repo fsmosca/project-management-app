@@ -112,7 +112,7 @@ def NavItem(label: str, path: str, is_active: bool = False):
 @component
 def NavBar(nav_attr: dict):
     return html.nav(
-        {'class': 'navbar navbar-dark navbar-expand-lg bg-dark'},
+        {'class': 'navbar navbar-dark navbar-expand-sm bg-dark fixed-top'},
         html.div(
             {'class': 'container-fluid'},
             html.a(
@@ -140,7 +140,8 @@ def NavBar(nav_attr: dict):
                     NavItem('Blog', '/blog', nav_attr.get('Blog', False)),
                     NavItemDropDownTask('Task', nav_attr.get('Task', False)),
                     NavItemDropDownFabrication('Fabrication', nav_attr.get('Fabrication', False)),
-                    NavItemDropDownConstruction('Construction', nav_attr.get('Construction', False))
+                    NavItemDropDownConstruction('Construction', nav_attr.get('Construction', False)),
+                    NavItem('Dashboard', '/dashboard', nav_attr.get('Dashboard', False)),
                 ),
             ),
         ),
