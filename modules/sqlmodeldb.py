@@ -1,7 +1,5 @@
-from typing import Optional
+from typing import Optional, Union
 from pathlib import Path
-
-from datetime import datetime, timezone
 
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 import sqlalchemy
@@ -12,12 +10,12 @@ class Task(SQLModel, table=True):
     task_name: str = ''
     task_rec_date: str = ''
     task_rec_by: str = ''
-    fabric_prog: float = 0.0
+    fabric_prog: Optional[float] = None
     fabric_status: str = ''
     fabric_date: str = ''
     fabric_note: str = ''
     fabric_rec_by: str = ''
-    constr_prog: float = 0.0
+    constr_prog: Optional[float] = None
     constr_status: str = ''
     constr_date: str = ''
     constr_note: str = ''
@@ -78,35 +76,17 @@ def select_task_by_task_name(task_name: str):
         return results.all()
 
 
-def delete_task(task_name: int):
-    """Deletes an entry from a given id."""
-    pass
-    # with Session(engine) as session:
-        # statement = select(Task).where(Task.task_name == task_name)
-        # results = session.exec(statement)
-
-        # try:
-            # task = results.one()
-        # except sqlalchemy.exc.NoResultFound:
-            # pass
-        # except Exception as err:
-            # print(repr(err))
-        # else:
-            # session.delete(task)
-            # session.commit()
-
-
 def add_fabrication_status(
         task_name:str,
         fabric_date:str,
         fabric_prog:float,
         fabric_status:str,
         fabric_note:str,
-        fabric_rec_by: str,
+        fabric_rec_by: str
     ):
     task = Task(
         task_name=task_name,
-        fabric_date=fabric_date,  # datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
+        fabric_date=fabric_date,
         fabric_prog=fabric_prog,
         fabric_status=fabric_status,        
         fabric_note=fabric_note,
@@ -119,15 +99,21 @@ def add_fabrication_status(
 
 
 def add_construction_status(
-        task_id: int,
         task_name:str,
-        task_rec_date: str,
-        task_rec_by: str,
+        constr_date:str,
+        constr_prog:float,
+        constr_status:str,
+        constr_note:str,
+        constr_rec_by: str
     ):
     task = Task(
         task_name=task_name,
-        task_rec_date=task_rec_date,
-        task_rec_by=task_rec_by
+        constr_date=constr_date,
+        constr_prog=constr_prog,
+        constr_status=constr_status,        
+        constr_note=constr_note,
+        constr_rec_by=constr_rec_by,
+        fabric_prog=None
     )
 
     with Session(engine) as session: 
