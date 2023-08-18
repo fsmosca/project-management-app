@@ -1,7 +1,7 @@
 from reactpy import component, html, hooks
 from modules.sqlmodeldb import add_fabrication_status
 from modules.navbar import NavBar
-from modules.task import TaskView
+from modules.task import TaskView, SearchTaskForm
 
 
 @component
@@ -119,6 +119,8 @@ def AddFabricationStatus():
             FabStatusForm(),
 
             html.div({'class': 'fs-5 fw-bold my-3 text-primary'}, 'Task View'),
-            TaskView()
+            TaskView(),
+            html.div({'class': 'fs-5 fw-bold mt-3 text-info'}, 'Search Task'),
+            SearchTaskForm()
         )
     )
