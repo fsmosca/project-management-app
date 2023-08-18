@@ -45,7 +45,7 @@ def HomeContent():
 def Home():
     return html.div(
         html.div(
-            {'class': 'container mt-3'},
+            {'class': 'container mt-4 pt-4'},
             NavBar({'Home': True}),
             HomeContent()
         ),
