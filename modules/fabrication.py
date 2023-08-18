@@ -14,7 +14,7 @@ def FabStatusForm():
     created_by, set_created_by = hooks.use_state('')
 
     def save_record(event):
-        add_fabrication_status(task_name, date, float(progress), status, note, created_by)
+        add_fabrication_status(task_name, date, created_by, status, float(progress), note)
 
     return html.form(
         {'on_submit': save_record},
@@ -85,7 +85,7 @@ def FabStatusForm():
                 ),
                 html.div(
                     {'class': 'col'},
-                    html.label({'for': 'created_by', 'class': 'form-label fw-bold mt-3'}, 'Created by'),
+                    html.label({'for': 'created_by', 'class': 'form-label fw-bold mt-3'}, 'Recorded by'),
                     html.input(
                         {
                             'class': 'form-control', 'type': 'text', 'id': 'created_by',
@@ -111,16 +111,14 @@ def FabStatusForm():
 def AddFabricationStatus():
     return html.div(
         html.div(
-            {'class': 'container mt-3'},
+            {'class': 'container mt-5 pt-3'},
             NavBar({'Fabrication': True}),
 
-            html.div({'class': 'fs-5 fw-bold mt-3 text-danger'}, 'Fabrication Status'),
+            html.div({'class': 'fs-5 fw-bold text-danger'}, 'Fabrication Status'),
             html.p('Adds fabrication status by task name.'),
             FabStatusForm(),
 
             html.div({'class': 'fs-5 fw-bold my-3 text-primary'}, 'Task View'),
-            TaskView(),
-            html.div({'class': 'fs-5 fw-bold mt-3 text-info'}, 'Search Task'),
-            SearchTaskForm()
+            TaskView()
         )
     )
