@@ -1,9 +1,10 @@
+from typing import List
 import pandas as pd
 from reactpy import component, html, utils, hooks, event
 
 from modules.navbar import NavBar
 from modules.sqlmodeldb import (add_task, select_all_tasks,
-                                select_task_by_task_name)
+                                select_task_by_task_name, Task)
 
 
 def find_task(task_name: str = '') -> pd.DataFrame:
@@ -24,50 +25,56 @@ def row_to_dict(row):
     out = {}
     for column in row.__table__.columns:
         out[column.name] = str(getattr(row, column.name))
-
     return out
+
+
+def sqlitedb_to_df(db_records: List[Task]) -> pd.DataFrame:
+    dict_frame = [row_to_dict(rec) for rec in db_records]
+    return pd.DataFrame(dict_frame)
 
 
 @component
 def TaskView():
     """Transfrom sqlite data into html."""
-    dataframe = []
-    db_records = select_all_tasks()
-    for rec in db_records:
-        v = row_to_dict(rec)
-        dataframe.append(v)
-    df = pd.DataFrame(dataframe)
+    df = sqlitedb_to_df(select_all_tasks())
+
+    # df2 = df.sort_values(by=['id'], ascending=[True]).drop_duplicates('task_name', keep='last')
+    # gb = df.groupby('task_name')
+    gb = df.groupby(['task_name'])
+    print(gb.last().reset_index())
+
     return html.div(DataframeToVdom(df))
 
 
 @component
-def DataframeToVdom(df):
+def DataframeToVdom(df, height=300):
     """Converts a pandas dataframe into ReactPy VDOM."""
     html_rec = df.to_html(
         index=False,
         border=0,
         justify='center',
-        classes=['table', 'text-nowrap', 'table-bordered', 'text-center']
+        classes=['table', 'text-nowrap', 'table-bordered',
+                 'text-center', 'table-striped', 'table-hover']
     )
     return html.div(
-        html.style("""
-        .table-fix-head {
+        html.style(f"""
+        .table-fix-head {{
             overflow-y: auto;
-            height: 400px;
-        }
-        .table-fix-head table {
+            height: {height}px;
+        }}
+        .table-fix-head table {{
             border-collapse: collapse;
             width: 100%;
-        }
+        }}
         .table-fix-head th,
-        .table-fix-head td {
+        .table-fix-head td {{
             padding: 8px 16px;
-        }
-        .table-fix-head th {
+        }}
+        .table-fix-head th {{
             position: sticky;
             top: 0;
-            background: #eee;
-        } 
+            background: #e7f3da;
+        }}
         """),
         html.div(
             {'class': 'table-fix-head'},
@@ -123,9 +130,10 @@ def SearchTaskForm():
 def SearchTask():
     return html.div(
         html.div(
-            {'class': 'container mt-3'},
+            {'class': 'container mt-5 pt-3'},
             NavBar({'Task': True}),
-            html.div({'class': 'fs-5 fw-bold mt-3 text-info'}, 'Search Task'),
+
+            html.div({'class': 'fs-5 fw-bold text-info'}, 'Search Task'),
             html.p('Enter your task name to get info about it.'),
             SearchTaskForm()
         )
@@ -182,7 +190,7 @@ def InputTaskForm():
                     {'class': 'col-3'},
                     html.label(
                         {'for': 'created_by', 'class': 'form-label fw-bold mt-3'},
-                        'Created by'
+                        'Recorded by'
                     ),
                     html.input(
                         {
@@ -210,11 +218,11 @@ def InputTaskForm():
 def InputTask():
     return html.div(
         html.div(
-            {'class': 'container mt-3'},
+            {'class': 'container mt-5 pt-3'},
             NavBar({'Task': True}),
 
-            html.div({'class': 'fs-5 fw-bold mt-3 text-success'}, 'Input Task'),
-            html.p('Unique task id will be automatically generated.'),
+            html.div({'class': 'fs-5 fw-bold text-success'}, 'Input Task'),
+            html.p('Unique table id will be automatically generated.'),
             InputTaskForm(),
 
             html.div({'class': 'fs-5 fw-bold my-3 text-primary'}, 'Task View'),
