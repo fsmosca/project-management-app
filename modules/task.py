@@ -1,11 +1,10 @@
-from typing import Optional
-
-from reactpy import component, html, utils, hooks, event
-from modules.navbar import NavBar
-from modules.form import InputTaskForm, DeleteTaskIdForm, AddConstructionStatusForm
-from modules.sqlmodeldb import select_all_tasks, select_task_by_task_name
-from modules.fabrication import FabStatusForm
 import pandas as pd
+from reactpy import component, html, utils, hooks, event
+
+from modules.navbar import NavBar
+from modules.sqlmodeldb import (add_task, delete_task, select_all_tasks,
+                                select_task_by_task_name,
+                                add_construction_status)
 
 
 def find_task(task_name: str = '') -> pd.DataFrame:
@@ -31,6 +30,32 @@ def row_to_dict(row):
 
 
 @component
+def AddConstructionStatusForm():
+    task_name, set_task_name = hooks.use_state('')
+
+    def update_construction_status(event):
+        add_construction_status(task_name)
+
+    return html.form(
+        {'on_submit': update_construction_status},
+        html.div(
+            {'class': 'mb-3'},
+            html.label({'for': 'taskname', 'class': 'form-label fw-bold mt-3'}, 'Task name'),
+            html.input(
+                {
+                    'class': 'form-control', 'type': 'text', 'id': 'taskname',
+                    'value': task_name, 'placeholder': 'input task name', 
+                    'on_change': lambda event: set_task_name(event['target']['value'])
+                }
+            ),
+            html.input(
+                {'class': 'btn btn-primary my-3', 'type': 'submit', 'value': "Add Construction status"}
+            )
+        )
+    )
+
+
+@component
 def TaskView():
     """Transfrom sqlite data into html."""
     dataframe = []
@@ -39,51 +64,42 @@ def TaskView():
         v = row_to_dict(rec)
         dataframe.append(v)
     df = pd.DataFrame(dataframe)
-
-    html_rec = df.to_html(
-        index=False,
-        border=0,
-        justify='center',
-        classes=[
-            'table', 'table-primary',
-            'table-bordered', 'text-center',
-            'table-striped', 'table-hover'
-        ]
-    )
-
-    return html.div(
-        {
-            'class': 'mt-2',
-            'style': {
-                'height': '300px',
-                'overflow-y': 'auto',
-            }
-        },
-        utils.html_to_vdom(html_rec)
-    )
+    return html.div(DataframeToVdom(df))
 
 
 @component
-def SearchResult(df):
+def DataframeToVdom(df):
+    """Converts a pandas dataframe into ReactPy VDOM."""
     html_rec = df.to_html(
         index=False,
         border=0,
         justify='center',
-        classes=[
-            'table', 'table-primary',
-            'table-bordered', 'text-center',
-            'table-striped', 'table-hover'
-        ]
+        classes=['table', 'text-nowrap', 'table-bordered', 'text-center']
     )
-
     return html.div(
-        {
-            'class': 'mt-2',
-            'style': {
-                'overflow-y': 'auto',
-            }
-        },
-        utils.html_to_vdom(html_rec)
+        html.style("""
+        .table-fix-head {
+            overflow-y: auto;
+            height: 400px;
+        }
+        .table-fix-head table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table-fix-head th,
+        .table-fix-head td {
+            padding: 8px 16px;
+        }
+        .table-fix-head th {
+            position: sticky;
+            top: 0;
+            background: #eee;
+        } 
+        """),
+        html.div(
+            {'class': 'table-fix-head'},
+            utils.html_to_vdom(html_rec)
+        )
     )
 
 
@@ -122,7 +138,7 @@ def SearchTaskForm():
             ),
 
             html.div({'class': 'fs-5 fw-bold mt-3 text-primary'}, 'Search Result'),
-            SearchResult(search_df)
+            DataframeToVdom(search_df)
         )
     )
 
@@ -136,6 +152,64 @@ def SearchTask():
             html.div({'class': 'fs-5 fw-bold mt-3 text-info'}, 'Search Task'),
             html.p('Enter your task name to get info about it.'),
             SearchTaskForm()
+        )
+    )
+
+
+@component
+def InputTaskForm():
+    task_name, set_task_name = hooks.use_state('')
+    task_date, set_task_date = hooks.use_state('')
+    task_created_by, set_task_created_by = hooks.use_state('')
+
+    def save_record(event):
+        add_task(task_name, task_date, task_created_by)
+
+    return html.form(
+        {'on_submit': save_record},
+        html.div(
+            {'class': 'mb-3'},
+            html.label(
+                {'for': 'task', 'class': 'form-label fw-bold mt-3'},
+                'Task name'
+            ),
+            html.input(
+                {
+                    'class': 'form-control', 'type': 'text', 'id': 'task',
+                    'value': task_name, 'placeholder': 'input task name', 
+                    'maxlength': '50',
+                    'on_change': lambda event: \
+                      set_task_name(event['target']['value'])
+                }
+            ),
+            html.label(
+                {'for': 'date', 'class': 'form-label fw-bold mt-3'},
+                'Task date'
+            ),
+            html.input(
+                {
+                    'class': 'form-control', 'type': 'date', 'id': 'date',
+                    'value': task_date, 'placeholder': 'input task date', 
+                    'on_change': lambda event: \
+                      set_task_date(event['target']['value'])
+                }
+            ),
+            html.label(
+                {'for': 'created_by', 'class': 'form-label fw-bold mt-3'},
+                'Created by'
+            ),
+            html.input(
+                {
+                    'class': 'form-control', 'type': 'text',
+                    'id': 'created_by', 'value': task_created_by,
+                    'on_change': lambda event: \
+                      set_task_created_by(event['target']['value'])
+                }
+            ),
+            html.input(
+                {'class': 'btn btn-primary my-3', 'type': 'submit',
+                 'value': 'Save'}
+            )
         )
     )
 
@@ -158,6 +232,33 @@ def InputTask():
 
 
 @component
+def DeleteTaskIdForm():
+    task_name, set_task_name = hooks.use_state('')
+
+    def delete_record(event):
+        delete_task(task_name)
+
+    return html.form(
+        {'on_submit': delete_record},
+        html.div(
+            {'class': 'mb-3'},
+            html.label({'for': 'task_name', 'class': 'form-label fw-bold mt-3'}, 'Task name'),
+            html.input(
+                {
+                    'class': 'form-control', 'type': 'text', 'id': 'task_name',
+                    'value': task_name, 'placeholder': 'input task name to delete', 
+                    'on_change': lambda event: \
+                      set_task_name(event['target']['value'])
+                }
+            ),
+            html.input(
+                {'class': 'btn btn-primary my-3', 'type': 'submit', 'value': 'Delete task'}
+            )
+        )
+    )
+
+
+@component
 def DeleteTask():
     return html.div(
         html.div(
@@ -167,23 +268,6 @@ def DeleteTask():
             html.div({'class': 'fs-5 fw-bold mt-3 text-danger'}, 'Delete Task'),
             html.p('Enter task name to delete.'),
             DeleteTaskIdForm(),
-
-            html.div({'class': 'fs-5 fw-bold my-3 text-primary'}, 'Task View'),
-            TaskView()
-        )
-    )
-
-
-@component
-def AddFabricationStatus():
-    return html.div(
-        html.div(
-            {'class': 'container mt-3'},
-            NavBar({'Fabrication': True}),
-
-            html.div({'class': 'fs-5 fw-bold mt-3 text-danger'}, 'Fabrication Status'),
-            html.p('Adds fabrication status by task name.'),
-            FabStatusForm(),
 
             html.div({'class': 'fs-5 fw-bold my-3 text-primary'}, 'Task View'),
             TaskView()
