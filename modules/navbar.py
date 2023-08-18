@@ -1,4 +1,4 @@
-from reactpy import component, html, event
+from reactpy import component, html
 
 
 BRAND = 'ECCPMA'
@@ -82,12 +82,6 @@ def NavItemDropDownTask(label: str, is_active: bool = False):
                     html.a(
                         {'class': 'dropdown-item', 'href': '/input-task', 'type': 'button'},
                         'Input Task'
-                    )
-                ),
-                html.li(
-                    html.a(
-                        {'class': 'dropdown-item', 'href': '/delete-task', 'type': 'button'},
-                        'Delete Task'
                     )
                 )
             )
