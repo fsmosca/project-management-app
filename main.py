@@ -9,9 +9,9 @@ from modules.sqlmodeldb import create_db_and_tables
 from modules.home import Home
 from modules.blog import Blog
 from modules.missing import MissingLink
-from modules.task import (SearchTask, InputTask, DeleteTask,
-                          AddConstructionStatus)
+from modules.task import SearchTask, InputTask
 from modules.fabrication import AddFabricationStatus
+from modules.construction import AddConstructionStatus
 from modules.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_SCRIPT
 
 
@@ -28,7 +28,6 @@ def Root():
         route('/blog', Blog()),
         route('/search-task', SearchTask()),
         route('/input-task', InputTask()),
-        route('/delete-task', DeleteTask()),
         route('/fabrication-status', AddFabricationStatus()),
         route('/construction-status', AddConstructionStatus()),
         route('*', MissingLink())
