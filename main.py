@@ -10,7 +10,8 @@ from modules.home import Home
 from modules.blog import Blog
 from modules.missing import MissingLink
 from modules.task import (SearchTask, InputTask, DeleteTask,
-                          AddFabricationStatus, AddConstructionStatus)
+                          AddConstructionStatus)
+from modules.fabrication import AddFabricationStatus
 from modules.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_SCRIPT
 
 
