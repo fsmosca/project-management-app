@@ -15,8 +15,12 @@ def ConstructionStatusForm():
 
     def save_record(event):
         add_construction_status(
-            task_name, date, float(progress),
-            status, note, created_by
+            task_name,
+            date,
+            created_by,
+            status,
+            float(progress),
+            note
         )
 
     return html.form(
@@ -88,7 +92,7 @@ def ConstructionStatusForm():
                 ),
                 html.div(
                     {'class': 'col'},
-                    html.label({'for': 'created_by', 'class': 'form-label fw-bold mt-3'}, 'Created by'),
+                    html.label({'for': 'created_by', 'class': 'form-label fw-bold mt-3'}, 'Recorded by'),
                     html.input(
                         {
                             'class': 'form-control', 'type': 'text', 'id': 'created_by',
@@ -114,10 +118,10 @@ def ConstructionStatusForm():
 def AddConstructionStatus():
     return html.div(
         html.div(
-            {'class': 'container mt-3'},
+            {'class': 'container mt-5 pt-3'},
             NavBar({'Construction': True}),
 
-            html.div({'class': 'fs-5 fw-bold mt-3 text-danger'}, 'Construction Status'),
+            html.div({'class': 'fs-5 fw-bold text-danger'}, 'Construction Status'),
             html.p('Adds construction status by task name.'),
             ConstructionStatusForm(),
 
