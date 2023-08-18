@@ -48,7 +48,7 @@ def BlogContent():
 def Blog():
     return html.div(
         html.div(
-            {'class': 'container mt-3'},
+            {'class': 'container mt-4 pt-4'},
             NavBar({'Blog': True}),
             BlogContent()
         ),
