@@ -12,6 +12,7 @@ from modules.missing import MissingLink
 from modules.task import SearchTask, InputTask
 from modules.fabrication import AddFabricationStatus
 from modules.construction import AddConstructionStatus
+from modules.dashboard import Dashboard
 from modules.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_SCRIPT
 
 
@@ -30,6 +31,7 @@ def Root():
         route('/input-task', InputTask()),
         route('/fabrication-status', AddFabricationStatus()),
         route('/construction-status', AddConstructionStatus()),
+        route('/dashboard', Dashboard()),
         route('*', MissingLink())
     )
 
