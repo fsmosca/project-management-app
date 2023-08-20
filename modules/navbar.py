@@ -21,7 +21,11 @@ def NavItemDropDownFabrication(label: str, is_active: bool = False):
                 {'class': 'dropdown-menu'},
                 html.li(
                     html.a(
-                        {'class': 'dropdown-item', 'href': '/fabrication-status', 'type': 'button'},
+                        {
+                            'class': 'dropdown-item',
+                            'href': '/fabrication-status',
+                            'type': 'button'
+                        },
                         'Add Status'
                     )
                 )
@@ -47,14 +51,17 @@ def NavItemDropDownConstruction(label: str, is_active: bool = False):
                 {'class': 'dropdown-menu'},
                 html.li(
                     html.a(
-                        {'class': 'dropdown-item', 'href': '/construction-status', 'type': 'button'},
+                        {
+                            'class': 'dropdown-item',
+                            'href': '/construction-status',
+                            'type': 'button'
+                        },
                         'Add Status'
                     )
                 )
             )
         )
     )
-
 
 
 @component
@@ -74,13 +81,21 @@ def NavItemDropDownTask(label: str, is_active: bool = False):
                 {'class': 'dropdown-menu'},
                 html.li(
                     html.a(
-                        {'class': 'dropdown-item', 'href': '/search-task', 'type': 'button'},
+                        {
+                            'class': 'dropdown-item',
+                            'href': '/search-task',
+                            'type': 'button'
+                        },
                         'Search Task'
                     )
                 ),
                 html.li(
                     html.a(
-                        {'class': 'dropdown-item', 'href': '/input-task', 'type': 'button'},
+                        {
+                            'class': 'dropdown-item',
+                            'href': '/input-task',
+                            'type': 'button'
+                        },
                         'Input Task'
                     )
                 )
@@ -139,10 +154,20 @@ def NavBar(nav_attr: dict):
                     NavItem('Home', '/', nav_attr.get('Home', False)),
                     NavItem('Blog', '/blog', nav_attr.get('Blog', False)),
                     NavItemDropDownTask('Task', nav_attr.get('Task', False)),
-                    NavItemDropDownFabrication('Fabrication', nav_attr.get('Fabrication', False)),
-                    NavItemDropDownConstruction('Construction', nav_attr.get('Construction', False)),
-                    NavItem('Dashboard', '/dashboard', nav_attr.get('Dashboard', False)),
-                ),
-            ),
-        ),
+                    NavItemDropDownFabrication(
+                        'Fabrication',
+                        nav_attr.get('Fabrication', False)
+                    ),
+                    NavItemDropDownConstruction(
+                        'Construction',
+                        nav_attr.get('Construction', False)
+                    ),
+                    NavItem(
+                        'Dashboard',
+                        '/dashboard',
+                        nav_attr.get('Dashboard', False)
+                    )
+                )
+            )
+        )
     )
