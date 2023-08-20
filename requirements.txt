@@ -3,3 +3,4 @@ uvicorn[standard]
 pandas
 sqlmodel
 reactpy-router
+plotly
