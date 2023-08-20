@@ -16,13 +16,14 @@ def Home_1():
            '''Effective project management is essential for successfully
            finishing a project. This involves documenting tasks and issues,
            monitoring task advancement, and systematically addressing any
-           problems that arise.'''
+           problems that may arise.'''
         ),
 
         html.h2('B. Features'),
         html.ul(
             html.li('Input tasks and save to a sqlite database.'),
-            html.li('Add and save status and comments for each task to easier track the issues.'),
+            html.li('''Add and save status and comments for each task to
+                    easier track the issues.'''),
             html.li('Can delete tasks.'),
             html.li('Display progress charts.'),
             html.li('more ...')
