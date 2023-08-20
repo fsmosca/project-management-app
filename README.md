@@ -2,6 +2,8 @@
 
 This app is created using [ReactPy](https://reactpy.dev/docs/guides/getting-started/index.html). This is used to record the progress and issues in a simplified fabrication and construction activities in an oil and gas typical project. Data is stored in sqlite database utilizing the [SQLModel](https://sqlmodel.tiangolo.com/) libary.
 
+The database is in the 'data' folder. The reactpy components are in the modules folder. There are task.py, fabrication.py, construction.py and other modules. The components are inside these modules.
+
 ## A. Dashboard
 
 Check progress and issues.
@@ -28,7 +30,21 @@ Examine the history of the task.
 
 ![image](https://github.com/fsmosca/project-management-app/assets/22366935/f22088df-3e0d-41d2-8d3b-bb3f8c5b329c)
 
-## F. Credits
+## F. Setup
+
+Clone the repository.
+
+```
+git clone https://github.com/fsmosca/project-management-app.git
+```
+
+Change directory to `project-mamangement-app` and run the command:
+
+```
+uvicorn main:app
+```
+
+## G. Credits
 
 * [ReactPy](https://reactpy.dev/docs/guides/getting-started/index.html)
 * [Pandas](https://pandas.pydata.org/)
