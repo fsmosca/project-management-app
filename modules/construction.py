@@ -30,49 +30,38 @@ def ConstructionStatusForm():
             html.div(
                 {'class': 'row'},
                 html.div(
-                    {'class': 'col'},                
-                    html.label({'for': 'task', 'class': 'form-label fw-bold mt-3'}, 'Task name'),
+                    {'class': 'col'},
+                    html.label(
+                        {'for': 'task', 'class': 'form-label fw-bold mt-3'},
+                        'Task name'
+                    ),
                     html.input(
                         {
-                            'class': 'form-control', 'type': 'text', 'id': 'task',
-                            'value': task_name, 'placeholder': 'input task name', 
-                            'on_change': lambda event: set_task_name(event['target']['value'])
+                            'class': 'form-control',
+                            'type': 'text',
+                            'id': 'task',
+                            'value': task_name,
+                            'placeholder': 'input task name',
+                            'on_change': lambda event:
+                                set_task_name(event['target']['value'])
                         }
                     )
                 ),
                 html.div(
                     {'class': 'col'},
-                    html.label({'for': 'date', 'class': 'form-label fw-bold mt-3'}, 'Status date'),
+                    html.label(
+                        {'for': 'date', 'class': 'form-label fw-bold mt-3'},
+                        'Status date'
+                    ),
                     html.input(
                         {
-                            'class': 'form-control', 'type': 'date', 'id': 'date',
-                            'value': date, 'placeholder': 'input date', 
-                            'on_change': lambda event: set_date(event['target']['value'])
-                        }
-                    )
-                )
-            ),
-            html.div(
-                {'class': 'row'},
-                html.div(
-                    {'class': 'col'},  
-                    html.label({'for': 'progress', 'class': 'form-label fw-bold mt-3'}, 'Task progress'),
-                    html.input(
-                        {
-                            'class': 'form-control', 'type': 'text', 'id': 'progress',
-                            'value': progress, 'placeholder': 'input task progress', 
-                            'on_change': lambda event: set_progress(event['target']['value'])
-                        }
-                    )
-                ),
-                html.div(
-                    {'class': 'col'},
-                    html.label({'for': 'status', 'class': 'form-label fw-bold mt-3'}, 'Task status'),
-                    html.input(
-                        {
-                            'class': 'form-control', 'type': 'text', 'id': 'status',
-                            'value': status, 'placeholder': 'input task status', 
-                            'on_change': lambda event: set_status(event['target']['value'])
+                            'class': 'form-control',
+                            'type': 'date',
+                            'id': 'date',
+                            'value': date,
+                            'placeholder': 'input date',
+                            'on_change': lambda event:
+                                set_date(event['target']['value'])
                         }
                     )
                 )
@@ -81,22 +70,82 @@ def ConstructionStatusForm():
                 {'class': 'row'},
                 html.div(
                     {'class': 'col'},
-                    html.label({'for': 'note', 'class': 'form-label fw-bold mt-3'}, 'Note'),
+                    html.label(
+                        {
+                            'for': 'progress',
+                            'class': 'form-label fw-bold mt-3'
+                        },
+                        'Task progress'
+                    ),
                     html.input(
                         {
-                            'class': 'form-control', 'type': 'text', 'id': 'note',
-                            'value': note, 'placeholder': 'input note', 'maxlength': '36',
-                            'on_change': lambda event: set_note(event['target']['value'])
+                            'class': 'form-control',
+                            'type': 'text',
+                            'id': 'progress',
+                            'value': progress,
+                            'placeholder': 'input task progress',
+                            'on_change': lambda event:
+                                set_progress(event['target']['value'])
                         }
                     )
                 ),
                 html.div(
                     {'class': 'col'},
-                    html.label({'for': 'created_by', 'class': 'form-label fw-bold mt-3'}, 'Recorded by'),
+                    html.label(
+                        {'for': 'status', 'class': 'form-label fw-bold mt-3'},
+                        'Task status'
+                    ),
                     html.input(
                         {
-                            'class': 'form-control', 'type': 'text', 'id': 'created_by',
-                            'value': created_by, 'on_change': lambda event: set_created_by(event['target']['value'])
+                            'class': 'form-control',
+                            'type': 'text',
+                            'id': 'status',
+                            'value': status,
+                            'placeholder': 'input task status',
+                            'on_change': lambda event:
+                                set_status(event['target']['value'])
+                        }
+                    )
+                )
+            ),
+            html.div(
+                {'class': 'row'},
+                html.div(
+                    {'class': 'col'},
+                    html.label(
+                        {'for': 'note', 'class': 'form-label fw-bold mt-3'},
+                        'Note'
+                    ),
+                    html.input(
+                        {
+                            'class': 'form-control',
+                            'type': 'text',
+                            'id': 'note',
+                            'value': note,
+                            'placeholder': 'input note',
+                            'maxlength': '36',
+                            'on_change': lambda event:
+                                set_note(event['target']['value'])
+                        }
+                    )
+                ),
+                html.div(
+                    {'class': 'col'},
+                    html.label(
+                        {
+                            'for': 'created_by',
+                            'class': 'form-label fw-bold mt-3'
+                        },
+                        'Recorded by'
+                    ),
+                    html.input(
+                        {
+                            'class': 'form-control',
+                            'type': 'text',
+                            'id': 'created_by',
+                            'value': created_by,
+                            'on_change': lambda event:
+                                set_created_by(event['target']['value'])
                         }
                     )
                 )
@@ -106,7 +155,11 @@ def ConstructionStatusForm():
                 html.div(
                     {'class': 'col'},
                     html.input(
-                        {'class': 'btn btn-primary my-3', 'type': 'submit', 'value': 'Save'}
+                        {
+                            'class': 'btn btn-primary my-3',
+                            'type': 'submit',
+                            'value': 'Save'
+                        }
                     )
                 )
             )
@@ -121,7 +174,10 @@ def AddConstructionStatus():
             {'class': 'container mt-5 pt-3'},
             NavBar({'Construction': True}),
 
-            html.div({'class': 'fs-5 fw-bold text-danger'}, 'Construction Status'),
+            html.div(
+                {'class': 'fs-5 fw-bold text-danger'},
+                'Construction Status'
+            ),
             html.p('Adds construction status by task name.'),
             ConstructionStatusForm(),
 
