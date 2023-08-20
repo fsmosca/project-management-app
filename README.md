@@ -1,6 +1,6 @@
 # Project Management Tool
 
-This app tool is created using [ReactPy](https://reactpy.dev/docs/guides/getting-started/index.html). This is used to record the progress and issues in a simplified fabrication and construction activities in an oil and gas typical project. Data is stored in sqlite database.
+This app tool is created using [ReactPy](https://reactpy.dev/docs/guides/getting-started/index.html). This is used to record the progress and issues in a simplified fabrication and construction activities in an oil and gas typical project. Data is stored in sqlite database utilizing the [SQLModel](https://sqlmodel.tiangolo.com/) libary.
 
 ## A. Dashboard
 
