@@ -37,44 +37,39 @@ def sqlitedb_to_df(db_records: List[Task]) -> pd.DataFrame:
 def TaskView():
     """Transfrom sqlite data into html."""
     df = sqlitedb_to_df(select_all_tasks())
-
-    # df2 = df.sort_values(by=['id'], ascending=[True]).drop_duplicates('task_name', keep='last')
-    # gb = df.groupby('task_name')
-    gb = df.groupby(['task_name'])
-    print(gb.last().reset_index())
-
     return html.div(DataframeToVdom(df))
 
 
 @component
-def DataframeToVdom(df, height=300):
+def DataframeToVdom(df):
     """Converts a pandas dataframe into ReactPy VDOM."""
     html_rec = df.to_html(
         index=False,
         border=0,
         justify='center',
         classes=['table', 'text-nowrap', 'table-bordered',
-                 'text-center', 'table-striped', 'table-hover']
+                 'text-center', 'table-striped', 'table-hover',
+                 'table-primary']
     )
     return html.div(
-        html.style(f"""
-        .table-fix-head {{
+        html.style("""
+        .table-fix-head {
             overflow-y: auto;
-            height: {height}px;
-        }}
-        .table-fix-head table {{
+            height: 200px;
+        }
+        .table-fix-head table {
             border-collapse: collapse;
             width: 100%;
-        }}
+        }
         .table-fix-head th,
-        .table-fix-head td {{
+        .table-fix-head td {
             padding: 8px 16px;
-        }}
-        .table-fix-head th {{
+        }
+        .table-fix-head th {
             position: sticky;
             top: 0;
-            background: #e7f3da;
-        }}
+            background: #97BDC4;
+        }
         """),
         html.div(
             {'class': 'table-fix-head'},
@@ -163,8 +158,11 @@ def InputTaskForm():
                     ),
                     html.input(
                         {
-                            'class': 'form-control', 'type': 'text', 'id': 'task',
-                            'value': task_name, 'placeholder': 'input task name', 
+                            'class': 'form-control',
+                            'type': 'text',
+                            'id': 'task',
+                            'value': task_name,
+                            'placeholder': 'input task name', 
                             'maxlength': '50',
                             'on_change': lambda event: \
                               set_task_name(event['target']['value'])
@@ -179,8 +177,11 @@ def InputTaskForm():
                     ),
                     html.input(
                         {
-                            'class': 'form-control', 'type': 'date', 'id': 'date',
-                            'value': task_date, 'placeholder': 'input task date', 
+                            'class': 'form-control',
+                            'type': 'date',
+                            'id': 'date',
+                            'value': task_date,
+                            'placeholder': 'input task date', 
                             'on_change': lambda event: \
                               set_task_date(event['target']['value'])
                         }
@@ -189,13 +190,19 @@ def InputTaskForm():
                 html.div(
                     {'class': 'col-3'},
                     html.label(
-                        {'for': 'created_by', 'class': 'form-label fw-bold mt-3'},
+                        {
+                            'for': 'created_by',
+                            'class': 'form-label fw-bold mt-3'
+                        },
                         'Recorded by'
                     ),
                     html.input(
                         {
-                            'class': 'form-control', 'type': 'text',
-                            'id': 'created_by', 'value': task_created_by,
+                            'class': 'form-control',
+                            'maxlength': '50',
+                            'type': 'text',
+                            'id': 'created_by',
+                            'value': task_created_by,
                             'on_change': lambda event: \
                               set_task_created_by(event['target']['value'])
                         }
