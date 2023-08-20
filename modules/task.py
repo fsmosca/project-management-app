@@ -43,6 +43,7 @@ def TaskView():
 @component
 def DataframeToVdom(df):
     """Converts a pandas dataframe into ReactPy VDOM."""
+    height = 400
     html_rec = df.to_html(
         index=False,
         border=0,
@@ -52,24 +53,24 @@ def DataframeToVdom(df):
                  'table-primary']
     )
     return html.div(
-        html.style("""
-        .table-fix-head {
+        html.style(f"""
+        .table-fix-head {{
             overflow-y: auto;
-            height: 200px;
-        }
-        .table-fix-head table {
+            height: {height}px;
+        }}
+        .table-fix-head table {{
             border-collapse: collapse;
             width: 100%;
-        }
+        }}
         .table-fix-head th,
-        .table-fix-head td {
+        .table-fix-head td {{
             padding: 8px 16px;
-        }
-        .table-fix-head th {
+        }}
+        .table-fix-head th {{
             position: sticky;
             top: 0;
             background: #97BDC4;
-        }
+        }}
         """),
         html.div(
             {'class': 'table-fix-head'},
