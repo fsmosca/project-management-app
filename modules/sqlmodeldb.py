@@ -9,10 +9,11 @@ class Task(SQLModel, table=True):
     task_name: str = ''
     recorded_date: str = ''
     recorded_by: str = ''
-    category: str= ''  # Register, Fabrication, Construction
+    category: str = ''  # Register, Fabrication, Construction
     status: str = ''  # STARTED, WPI, HOLD, DONE
     progress: float = 0.0
     note: str = ''
+
 
 sqlite_file_name = "tasks.sqlite"
 sqlite_url = f"sqlite:///data/{sqlite_file_name}"
@@ -25,14 +26,14 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 
-def add_task(task_name:str, recorded_date: str, recorded_by: str):
+def add_task(task_name: str, recorded_date: str, recorded_by: str):
     """Adds task to the table.
 
     Duplicate task name is automatically detected and is not saved.
     """
     if len(select_task_by_task_name(task_name)):
         return
-    
+
     task = Task(
         task_name=task_name,
         recorded_date=recorded_date,
@@ -42,7 +43,7 @@ def add_task(task_name:str, recorded_date: str, recorded_by: str):
         progress=100.0
     )
 
-    with Session(engine) as session: 
+    with Session(engine) as session:
         session.add(task)
         session.commit()
 
@@ -53,7 +54,7 @@ def select_all_tasks():
         statement = select(Task)
         results = session.exec(statement)
         return results.all()
-    
+
 
 def select_task_by_id(id_: int):
     """Select task by id."""
@@ -61,7 +62,7 @@ def select_task_by_id(id_: int):
         statement = select(Task).where(Task.id == id_)
         results = session.exec(statement)
         return results.all()
-    
+
 
 def select_task_by_task_name(task_name: str):
     """Select task by task_name."""
@@ -76,20 +77,20 @@ def add_fabrication_status(
         recorded_date: str,
         recorded_by: str,
         status: str,
-        progress: float,        
+        progress: float,
         note: str
-    ):
+):
     task = Task(
         task_name=task_name,
         recorded_date=recorded_date,
         recorded_by=recorded_by,
-        category='Fabrication',        
+        category='Fabrication',
         status=status,
         progress=progress,
         note=note
     )
 
-    with Session(engine) as session: 
+    with Session(engine) as session:
         session.add(task)
         session.commit()
 
@@ -99,26 +100,19 @@ def add_construction_status(
         recorded_date: str,
         recorded_by: str,
         status: str,
-        progress: float,        
+        progress: float,
         note: str
-    ):
+):
     task = Task(
         task_name=task_name,
         recorded_date=recorded_date,
         recorded_by=recorded_by,
-        category='Construction',        
+        category='Construction',
         status=status,
         progress=progress,
         note=note
     )
 
-    with Session(engine) as session: 
+    with Session(engine) as session:
         session.add(task)
         session.commit()
-
-
-def select_latest_task_status():
-    """Select all tasks but show only the latest status."""
-    all_tasks = select_all_tasks()
-  
-  
