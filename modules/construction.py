@@ -123,7 +123,7 @@ def ConstructionStatusForm():
                             'id': 'note',
                             'value': note,
                             'placeholder': 'input note',
-                            'maxlength': '36',
+                            'maxlength': '50',
                             'on_change': lambda event:
                                 set_note(event['target']['value'])
                         }
