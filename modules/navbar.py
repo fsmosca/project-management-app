@@ -6,8 +6,12 @@ BRAND = 'ECCPMA'
 
 @component
 def NavItemDropDownFabrication(label: str, is_active: bool = False):
-    attribute = {'href': '#', 'role': 'button', 'data-bs-toggle': 'dropdown',
-                 'aria-expanded': 'false'}
+    attribute = {
+        'href': '#',
+        'role': 'button',
+        'data-bs-toggle': 'dropdown',
+        'aria-expanded': 'false'
+    }
     if is_active:
         attribute.update({'class': 'nav-link active dropdown-toggle'})
     else:
@@ -36,8 +40,12 @@ def NavItemDropDownFabrication(label: str, is_active: bool = False):
 
 @component
 def NavItemDropDownConstruction(label: str, is_active: bool = False):
-    attribute = {'href': '#', 'role': 'button', 'data-bs-toggle': 'dropdown',
-                 'aria-expanded': 'false'}
+    attribute = {
+        'href': '#',
+        'role': 'button',
+        'data-bs-toggle': 'dropdown',
+        'aria-expanded': 'false'
+    }
     if is_active:
         attribute.update({'class': 'nav-link active dropdown-toggle'})
     else:
@@ -66,8 +74,12 @@ def NavItemDropDownConstruction(label: str, is_active: bool = False):
 
 @component
 def NavItemDropDownTask(label: str, is_active: bool = False):
-    attribute = {'href': '#', 'role': 'button', 'data-bs-toggle': 'dropdown',
-                 'aria-expanded': 'false'}
+    attribute = {
+        'href': '#',
+        'role': 'button',
+        'data-bs-toggle': 'dropdown',
+        'aria-expanded': 'false'
+    }
     if is_active:
         attribute.update({'class': 'nav-link active dropdown-toggle'})
     else:
@@ -83,8 +95,7 @@ def NavItemDropDownTask(label: str, is_active: bool = False):
                     html.a(
                         {
                             'class': 'dropdown-item',
-                            'href': '/search-task',
-                            'type': 'button'
+                            'href': '/search-task'
                         },
                         'Search Task'
                     )
@@ -93,8 +104,7 @@ def NavItemDropDownTask(label: str, is_active: bool = False):
                     html.a(
                         {
                             'class': 'dropdown-item',
-                            'href': '/input-task',
-                            'type': 'button'
+                            'href': '/input-task'
                         },
                         'Input Task'
                     )
@@ -151,9 +161,19 @@ def NavBar(nav_attr: dict):
                  'id': 'navbarSupportedContent'},
                 html.ul(
                     {'class': 'navbar-nav me-auto mb-2 mb-lg-0'},
-                    NavItem('Home', '/', nav_attr.get('Home', False)),
-                    NavItem('Blog', '/blog', nav_attr.get('Blog', False)),
-                    NavItemDropDownTask('Task', nav_attr.get('Task', False)),
+                    NavItem(
+                        'Home', '/',
+                        nav_attr.get('Home', False)
+                    ),
+                    NavItem(
+                        'Blog',
+                        '/blog',
+                        nav_attr.get('Blog', False)
+                    ),
+                    NavItemDropDownTask(
+                        'Task',
+                        nav_attr.get('Task', False)
+                    ),
                     NavItemDropDownFabrication(
                         'Fabrication',
                         nav_attr.get('Fabrication', False)
