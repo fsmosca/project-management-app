@@ -13,3 +13,10 @@ Check progress and issues.
 Add fabrication updates to a task or line.
 
 ![image](https://github.com/fsmosca/project-management-app/assets/22366935/41fa4591-2989-4032-8a9c-2ccb52869acf)
+
+## C. Credits
+
+* [ReactPy](https://reactpy.dev/docs/guides/getting-started/index.html)
+* [Pandas](https://pandas.pydata.org/)
+* [SQLModel](https://sqlmodel.tiangolo.com/)
+* [Plotly](https://plotly.com/python/)
