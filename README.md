@@ -50,3 +50,4 @@ uvicorn main:app
 * [Pandas](https://pandas.pydata.org/)
 * [SQLModel](https://sqlmodel.tiangolo.com/)
 * [Plotly](https://plotly.com/python/)
+* [Bootstrap 5](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
