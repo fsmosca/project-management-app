@@ -14,9 +14,10 @@ from modules.fabrication import AddFabricationStatus
 from modules.construction import AddConstructionStatus
 from modules.dashboard import Dashboard
 from modules.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_SCRIPT
+from modules.plotly import PLOTLY_JS
 
 
-PAGE_HEADER_TITLE = 'Project Management System'
+PAGE_HEADER_TITLE = 'Project Management App'
 
 
 create_db_and_tables()
@@ -44,6 +45,7 @@ configure(
         head=html.head(
             html.link(BOOTSTRAP_CSS),
             html.script(BOOTSTRAP_SCRIPT),
+            html.script(PLOTLY_JS),
             html.title(PAGE_HEADER_TITLE)
         )
     )
